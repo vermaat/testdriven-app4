@@ -34,6 +34,7 @@ after_success:
   - bash ./docker-push.sh
   - bash ./docker-deploy-stage.sh
 
+#MV: Also deploy with current failures
 after_failure:
   - bash ./docker-push.sh
   - bash ./docker-deploy-stage.sh
