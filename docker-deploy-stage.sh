@@ -24,7 +24,6 @@ then
       fi
     }
 
-    # new
     update_service() {
       if [[ $(aws ecs update-service --cluster $cluster --service $service --task-definition $revision | $JQ '.service.taskDefinition') != $revision ]]; then
         echo "Error updating service."
@@ -34,6 +33,7 @@ then
 
     deploy_cluster() {
 
+      # new
       cluster="test-driven-staging-cluster"
 
       # users
@@ -43,15 +43,18 @@ then
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
+      # new
       update_service
 
       # client
+      # new
       service="testdriven-client-stage-service"
       template="ecs_client_stage_taskdefinition.json"
       task_template=$(cat "ecs/$template")
       task_def=$(printf "$task_template" $AWS_ACCOUNT_ID)
       echo "$task_def"
       register_definition
+      # new
       update_service
 
       # swagger
