@@ -3,6 +3,7 @@
 
 import coverage
 import unittest
+import sys
 
 from flask.cli import FlaskGroup
 
