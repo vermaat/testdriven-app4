@@ -33,8 +33,10 @@ script:
 after_success:
   - bash ./docker-push.sh
   - bash ./docker-deploy-stage.sh
+  - bash ./docker-deploy-prod.sh
 
 #MV: Also deploy with current failures
-after_failure:
-  - bash ./docker-push.sh
-  - bash ./docker-deploy-stage.sh
+#after_failure:
+#  - bash ./docker-push.sh
+#  - bash ./docker-deploy-stage.sh
+#  - bash ./docker-deploy-prod.sh
