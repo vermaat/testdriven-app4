@@ -3,3 +3,4 @@ env
 htmlcov
 node_modules
 credentials
+cypress/integration/.ds_store
