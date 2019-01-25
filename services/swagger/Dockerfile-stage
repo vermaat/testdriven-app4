@@ -1,6 +1,6 @@
-FROM nginx:1.15.0-perl
+FROM nginx:1.15.8-perl
 
-ENV SWAGGER_UI_VERSION 3.17.1
+ENV SWAGGER_UI_VERSION 3.20.4
 ENV URL **None**
 
 RUN apt-get update \

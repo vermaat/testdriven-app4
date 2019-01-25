@@ -1,8 +1,8 @@
 # services/users/project/api/users.py
 
 
-from sqlalchemy import exc
 from flask import Blueprint, jsonify, request, render_template
+from sqlalchemy import exc
 
 from project.api.models import User
 from project import db
@@ -41,7 +41,6 @@ def add_user(resp):
         'status': 'fail',
         'message': 'Invalid payload.'
     }
-    # new
     if not is_admin(resp):
         response_object['message'] = 'You do not have permission to do that.'
         return jsonify(response_object), 401
@@ -62,7 +61,7 @@ def add_user(resp):
         else:
             response_object['message'] = 'Sorry. That email already exists.'
             return jsonify(response_object), 400
-    except (exc.IntegrityError, ValueError) as e:
+    except (exc.IntegrityError, ValueError):
         db.session.rollback()
         return jsonify(response_object), 400
 

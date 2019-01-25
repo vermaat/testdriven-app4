@@ -14,18 +14,15 @@ from flask_bcrypt import Bcrypt
 # instantiate the extensions
 db = SQLAlchemy()
 toolbar = DebugToolbarExtension()
+cors = CORS()
 migrate = Migrate()
 bcrypt = Bcrypt()
-cors = CORS()
 
 
 def create_app(script_info=None):
 
     # instantiate the app
     app = Flask(__name__)
-
-    # enable CORS
-    CORS(app)
 
     # set config
     app_settings = os.getenv('APP_SETTINGS')
@@ -41,8 +38,8 @@ def create_app(script_info=None):
     # register blueprints
     from project.api.users import users_blueprint
     app.register_blueprint(users_blueprint)
-    from project.api.auth import auth_blueprint  # new
-    app.register_blueprint(auth_blueprint)       # new
+    from project.api.auth import auth_blueprint
+    app.register_blueprint(auth_blueprint)
 
     # shell context for flask cli
     @app.shell_context_processor

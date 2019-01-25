@@ -13,17 +13,25 @@ inspect() {
 # run server-side tests
 server() {
   docker-compose -f docker-compose-dev.yml up -d --build
-  docker-compose -f docker-compose-dev.yml run users python manage.py test
+  docker-compose -f docker-compose-dev.yml exec users python manage.py test
   inspect $? users
-  docker-compose -f docker-compose-dev.yml run users flake8 project
+  docker-compose -f docker-compose-dev.yml exec users flake8 project
   inspect $? users-lint
+  docker-compose -f docker-compose-dev.yml run exercises python manage.py test
+  inspect $? exercises
+  docker-compose -f docker-compose-dev.yml run exercises flake8 project
+  inspect $? exercises-lint
+  docker-compose -f docker-compose-dev.yml run scores python manage.py test
+  inspect $? scores
+  docker-compose -f docker-compose-dev.yml run scores flake8 project
+  inspect $? scores-lint
   docker-compose -f docker-compose-dev.yml down
 }
 
 # run client-side tests
 client() {
   docker-compose -f docker-compose-dev.yml up -d --build
-  docker-compose -f docker-compose-dev.yml run client npm test -- --coverage
+  docker-compose -f docker-compose-dev.yml exec client npm test -- --coverage
   inspect $? client
   docker-compose -f docker-compose-dev.yml down
 }
@@ -32,7 +40,7 @@ client() {
 e2e() {
   docker-compose -f docker-compose-stage.yml up -d --build
   docker-compose -f docker-compose-stage.yml exec users python manage.py recreate-db
-  ./node_modules/.bin/cypress run --config baseUrl=http://localhost
+  ./node_modules/.bin/cypress run --config baseUrl=http://localhost --env REACT_APP_API_GATEWAY_URL=$REACT_APP_API_GATEWAY_URL,LOAD_BALANCER_DNS_NAME=http://localhost
   inspect $? e2e
   docker-compose -f docker-compose-stage.yml down
 }
@@ -40,11 +48,19 @@ e2e() {
 # run all tests
 all() {
   docker-compose -f docker-compose-dev.yml up -d --build
-  docker-compose -f docker-compose-dev.yml run users python manage.py test
+  docker-compose -f docker-compose-dev.yml exec users python manage.py test
   inspect $? users
-  docker-compose -f docker-compose-dev.yml run users flake8 project
+  docker-compose -f docker-compose-dev.yml exec users flake8 project
   inspect $? users-lint
-  docker-compose -f docker-compose-dev.yml run client npm test -- --coverage
+  docker-compose -f docker-compose-dev.yml run exercises python manage.py test
+  inspect $? exercises
+  docker-compose -f docker-compose-dev.yml run exercises flake8 project
+  inspect $? exercises-lint
+  docker-compose -f docker-compose-dev.yml run scores python manage.py test
+  inspect $? scores
+  docker-compose -f docker-compose-dev.yml run scores flake8 project
+  inspect $? scores-lint
+  docker-compose -f docker-compose-dev.yml exec client npm test -- --coverage
   inspect $? client
   docker-compose -f docker-compose-dev.yml down
   e2e

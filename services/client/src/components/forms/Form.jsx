@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { registerFormRules, loginFormRules } from './form-rules.js';
 import FormErrors from './FormErrors.jsx';
@@ -17,7 +18,6 @@ class Form extends Component {
       },
       registerFormRules: registerFormRules,
       loginFormRules: loginFormRules,
-      formRules: '',
       valid: false,
     };
     this.handleUserFormSubmit = this.handleUserFormSubmit.bind(this);
@@ -61,11 +61,9 @@ class Form extends Component {
       this.props.loginUser(res.data.auth_token);
     })
     .catch((err) => {
-      // new
       if (formType === 'Login') {
         this.props.createMessage('User does not exist.', 'danger');
       };
-      // new
       if (formType === 'Register') {
         this.props.createMessage('That user already exists.', 'danger');
       };
@@ -129,16 +127,19 @@ class Form extends Component {
     if (this.props.isAuthenticated) {
       return <Redirect to='/' />;
     };
-    let formRules = this.state.loginFormRules;  // new
-    // new
+    let formRules = this.state.loginFormRules;
     if (this.props.formType === 'Register') {
       formRules = this.state.registerFormRules;
     }
     return (
       <div>
-        <h1 className="title is-1">{this.props.formType}</h1>
+        {this.props.formType === 'Login' &&
+          <h1 className="title is-1">Log In</h1>
+        }
+        {this.props.formType === 'Register' &&
+          <h1 className="title is-1">Register</h1>
+        }
         <hr/><br/>
-        {/* new */}
         <FormErrors
           formType={this.props.formType}
           formRules={formRules}
@@ -189,6 +190,13 @@ class Form extends Component {
       </div>
     )
   };
+};
+
+Form.propTypes = {
+  formType: PropTypes.string.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  createMessage: PropTypes.func.isRequired,
 };
 
 export default Form;
