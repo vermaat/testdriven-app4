@@ -63,9 +63,9 @@ or
 $ docker-compose -f docker-compose-prod.yml up -d
 
 recreate db
-$ docker-compose -f docker-compose-dev.yml run users python manage.py recreate-db
+$ docker-compose -f docker-compose-dev.yml run users python manage.py recreate_db
 or
-docker-compose -f docker-compose-prod.yml run users python manage.py recreate-db
+docker-compose -f docker-compose-prod.yml run users python manage.py recreate_db
 
 seed db
 $ docker-compose -f docker-compose-dev.yml run users python manage.py seed-db
