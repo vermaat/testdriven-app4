@@ -5,14 +5,14 @@ then
 
   if [[ "$TRAVIS_BRANCH" == "staging" ]]; then
     export DOCKER_ENV=stage
-    export REACT_APP_USERS_SERVICE_URL="testdriven-staging-alb-1088856666.eu-central-1.elb.amazonaws.com"
-    export REACT_APP_EXERCISES_SERVICE_URL="testdriven-staging-alb-1088856666.eu-central-1.elb.amazonaws.com"
-    export REACT_APP_SCORES_SERVICE_URL="testdriven-staging-alb-1088856666.eu-central-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://testdriven-staging-alb-1088856666.eu-central-1.elb.amazonaws.com"
+    export REACT_APP_EXERCISES_SERVICE_URL="http://testdriven-staging-alb-1088856666.eu-central-1.elb.amazonaws.com"
+    export REACT_APP_SCORES_SERVICE_URL="http://testdriven-staging-alb-1088856666.eu-central-1.elb.amazonaws.com"
   elif [[ "$TRAVIS_BRANCH" == "production" ]]; then
     export DOCKER_ENV=prod
-    export REACT_APP_USERS_SERVICE_URL="testdriven-production-alb-1070359892.eu-central-1.elb.amazonaws.com"
-    export REACT_APP_EXERCISES_SERVICE_URL="testdriven-production-alb-1070359892.eu-central-1.elb.amazonaws.com"
-    export REACT_APP_SCORES_SERVICE_URL="testdriven-production-alb-1070359892.eu-central-1.elb.amazonaws.com"
+    export REACT_APP_USERS_SERVICE_URL="http://testdriven-production-alb-1070359892.eu-central-1.elb.amazonaws.com"
+    export REACT_APP_EXERCISES_SERVICE_URL="http://testdriven-production-alb-1070359892.eu-central-1.elb.amazonaws.com"
+    export REACT_APP_SCORES_SERVICE_URL="http://testdriven-production-alb-1070359892.eu-central-1.elb.amazonaws.com"
     export DATABASE_URL="$AWS_RDS_URI"
     export SECRET_KEY="$PRODUCTION_SECRET_KEY"
   fi
